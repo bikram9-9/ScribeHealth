@@ -13,8 +13,7 @@ export const getSummary = async (transcript) => {
     .post("https://api.openai.com/v1/completions", data, {
       headers: {
         "Content-Type": "application/json",
-        Authorization:
-          "Bearer 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",
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_KEY}`,
       },
     })
     .then((res) => {

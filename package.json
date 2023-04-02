@@ -18,6 +18,7 @@
   "devDependencies": {
     "autoprefixer": "^10.4.14",
     "babel-polyfill": "^6.26.0",
+    "dotenv": "^16.0.3",
     "postcss": "^8.4.21",
     "tailwindcss": "^3.3.1"
   }
