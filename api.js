@@ -14,7 +14,7 @@ export const getSummary = async (transcript) => {
       headers: {
         "Content-Type": "application/json",
         Authorization:
-          "Bearer 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",
+          "Bearer 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",
       },
     })
     .then((res) => {
