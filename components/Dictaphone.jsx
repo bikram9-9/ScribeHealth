@@ -3,6 +3,8 @@ import { createSpeechlySpeechRecognition } from "@speechly/speech-recognition-po
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
+import { getSummary } from "../api";
+import SummaryModal from "./SummaryModal";
 
 const appId = "474585cc-d1bb-4d28-a1ec-806458a99de5";
 const SpeechlySpeechRecognition = createSpeechlySpeechRecognition(appId);
@@ -11,6 +13,8 @@ SpeechRecognition.applyPolyfill(SpeechlySpeechRecognition);
 const Dictaphone = () => {
   const [domLoaded, setDomLoaded] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
+  const [summaryModalActive, setSummaryModalActive] = useState(false);
+  const [summaryData, setSummaryData] = useState("");
   useEffect(() => {
     setDomLoaded(true);
   }, []);
@@ -24,6 +28,13 @@ const Dictaphone = () => {
   const stopListening = () => {
     setIsRecording(false);
     SpeechRecognition.stopListening();
+  };
+
+  const showSummary = async () => {
+    const data = await getSummary(transcript);
+    console.log(`DATA IS ${data}`);
+    setSummaryData(data);
+    setSummaryModalActive(true);
   };
 
   if (!browserSupportsSpeechRecognition && domLoaded) {
@@ -42,8 +53,21 @@ const Dictaphone = () => {
               <div className="text-[14px] pt-4 md:px-80 text-red-700">
                 Recording
               </div>
-            ) : null}
+            ) : (
+              <button
+                onClick={showSummary}
+                className="text-[14px] pt-4 md:px-80 text-white font-bold rounded-md p-4"
+              >
+                Get Summary
+              </button>
+            )}
           </div>
+          {summaryModalActive ? (
+            <SummaryModal
+              setSummaryModalActive={setSummaryModalActive}
+              summaryData={summaryData}
+            />
+          ) : null}
           <div className="px-2 sm:px-20 md:px-80 text-2xl md:text-4xl my-20 text-white overflow-visible">
             {transcript}
           </div>
